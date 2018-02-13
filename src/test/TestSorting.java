@@ -31,6 +31,18 @@ public class TestSorting {
 	}
 	
 	@Test
+	public void testMergeSortWithStrings() {
+		List<String> unsortedStrings = Arrays.asList(new String[]{"apple", "this", "annex", "unsorted", "book", "fish", "pack"});
+		
+		List<String> correctStringResult = generateSortedList(unsortedStrings);
+		
+		List<String> sortStringResult = Sorting.mergeSort(unsortedStrings);
+		
+		assert(sortStringResult.equals(correctStringResult));
+		assert(sortStringResult != correctStringResult); //make sure different lists
+	}
+	
+	@Test
 	public void testQuickSortWithInts() {
 		List<Integer> unsortedNumbers = Arrays.asList(new String[]{"35278124", "23948702", "23", "234231", "124231", "21", "12301"}).stream()
 				.map((String entry) -> {
@@ -44,9 +56,26 @@ public class TestSorting {
 		assert(sortNumberResult.equals(correctNumberResult));
 		assert(sortNumberResult != correctNumberResult); //make sure different lists
 	}
+	
+	@Test
+	public void testMergeSortWithInts() {
+		List<Integer> unsortedNumbers = Arrays.asList(new String[]{"35278124", "-23948702", "23", "234231", "124231", "21", "12301"}).stream()
+				.map((String entry) -> {
+					return Integer.parseInt(entry);
+				}).collect(Collectors.toList());
+		
+		List<Integer> correctNumberResult = generateSortedList(unsortedNumbers);
+		
+		List<Integer> sortNumberResult = Sorting.mergeSort(unsortedNumbers);
+		
+		assert(sortNumberResult.equals(correctNumberResult));
+		assert(sortNumberResult != correctNumberResult); //make sure different lists
+	}
 
 	public static void main(String[] args) {
 		new TestSorting().testQuickSortWithStrings();
 		new TestSorting().testQuickSortWithInts();
+		new TestSorting().testMergeSortWithStrings();
+		new TestSorting().testMergeSortWithInts();
 	}
 }

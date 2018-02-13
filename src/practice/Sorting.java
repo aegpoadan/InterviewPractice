@@ -36,5 +36,31 @@ public class Sorting {
 		leftSide.addAll(rightSide);
 		return leftSide;
 	}
+	
+	public static <T extends Comparable<T>> List<T> mergeSort(List<T> list) {
+		if(list.size() < 2) {
+			return list;
+		}
+		
+		List<T> leftSide = new ArrayList<T>(list.subList(0, list.size()/2));
+		List<T> rightSide = new ArrayList<T>(list.subList(list.size()/2, list.size()));
+		
+		leftSide = mergeSort(leftSide);
+		rightSide = mergeSort(rightSide);
+		
+		return merge(leftSide, rightSide);
+	}
+	
+	private static <T extends Comparable<T>> List<T> merge(List<T> leftSide, List<T> rightSide) {
+		List<T> result = new ArrayList<T>(); 
+		int i = 0, j = 0;
+		
+		while(i<leftSide.size() && j<rightSide.size()) {
+			result.add(((leftSide.get(i).compareTo(rightSide.get(j)) < 0)) ? leftSide.get(i++) : rightSide.get(j++)); 
+		}
+		result.addAll((i<leftSide.size())?leftSide.subList(i, leftSide.size()):rightSide.subList(j, rightSide.size()));
+		
+		return result;
+	}
 
 }
