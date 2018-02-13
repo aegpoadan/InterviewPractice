@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.Test;
 
@@ -11,19 +12,41 @@ import practice.Sorting;
 
 public class TestSorting {
 
-	@Test
-	public void testQuickSort() {
-		List<String> unsortedStrings = Arrays.asList(new String[]{"test", "this", "a", "unsorted", "124231", "fLNFW;21", ",dfn,j23DA"});
+	private <T extends Comparable<T>> List<T> generateSortedList(List<T> list) {
+		ArrayList<T> result = new ArrayList<T>(list);
+		Collections.sort(result);
+		return result;
+	}
 	
-		List<String> correctResult = new ArrayList<String>(unsortedStrings);
-		Collections.sort(correctResult);
+	@Test
+	public void testQuickSortWithStrings() {
+		List<String> unsortedStrings = Arrays.asList(new String[]{"apple", "this", "annex", "unsorted", "book", "fish", "pack"});
 		
-		List<String> sortResult = Sorting.quickSort(unsortedStrings);
+		List<String> correctStringResult = generateSortedList(unsortedStrings);
 		
-		assert(sortResult.equals(correctResult));
+		List<String> sortStringResult = Sorting.quickSort(unsortedStrings);
+		
+		assert(sortStringResult.equals(correctStringResult));
+		assert(sortStringResult != correctStringResult); //make sure different lists
+	}
+	
+	@Test
+	public void testQuickSortWithInts() {
+		List<Integer> unsortedNumbers = Arrays.asList(new String[]{"35278124", "23948702", "23", "234231", "124231", "21", "12301"}).stream()
+				.map((String entry) -> {
+					return Integer.parseInt(entry);
+				}).collect(Collectors.toList());
+		
+		List<Integer> correctNumberResult = generateSortedList(unsortedNumbers);
+		
+		List<Integer> sortNumberResult = Sorting.quickSort(unsortedNumbers);
+		
+		assert(sortNumberResult.equals(correctNumberResult));
+		assert(sortNumberResult != correctNumberResult); //make sure different lists
 	}
 
 	public static void main(String[] args) {
-		new TestSorting().testQuickSort();
+		new TestSorting().testQuickSortWithStrings();
+		new TestSorting().testQuickSortWithInts();
 	}
 }
